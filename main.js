@@ -30,13 +30,13 @@ var config = {
   var sys = require('sys');
   var log = sys.puts;
 
-  //var log_message = function (message) {
-  //  log('====> [31;1m' + sys.inspect(message) + '[m');
-  //};
-  //var publish = log_message;
-  var publish = function () {
-    throw new Error('publish() not initialized');
+  var log_message = function (message) {
+    log('====> [31;1m' + sys.inspect(message) + '[m');
   };
+  var publish = log_message;
+  //var publish = function () {
+  //  throw new Error('publish() not initialized');
+  //};
 
   var TCP_server = function () {
     var net = require('net');
@@ -50,6 +50,7 @@ var config = {
       });
       stream.on('data', function (chunk) {
         data += chunk;
+        log("chunk: [35m" + chunk + "[m$");
       });
       stream.on('end', function () {
         stream.end();
@@ -73,15 +74,15 @@ var config = {
 
     var connection = amqp.createConnection(config.amqp.connection);
 
-    //connection.on('error', function (err) {
-    //  //if (save_publish !== publish) {
-    //  //  publish = save_publish;
-    //  //}
-    //  var timeout = config.amqp.reconnect_timeout;
-    //  setTimeout(AMQP_client, timeout);
-    //  log('AMQP: ' + err);
-    //  //log('AMQP client: ' + err + '; retrying in ' + timeout + 'ms');
-    //});
+    connection.on('error', function (err) {
+      //if (save_publish !== publish) {
+      //  publish = save_publish;
+      //}
+      var timeout = config.amqp.reconnect_timeout;
+      setTimeout(AMQP_client, timeout);
+      log('AMQP: ' + err);
+      //log('AMQP client: ' + err + '; retrying in ' + timeout + 'ms');
+    });
 
     connection.on('ready', function () {
       var exchange = connection.exchange(
