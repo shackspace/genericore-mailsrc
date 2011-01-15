@@ -2,8 +2,8 @@
 #
 # usage: mailman-archive-replay <mailsrc-config> <mailman-archive>
 #
-# Parse a mailman archive (AKA. gunzip'd "Downloadable version") and send each
-# contained mail to a configured message queue.
+# Parse a mailman archive (AKA. gunzip'd "Downloadable version") and forward
+# each contained mail.
 #
 set -euf
 

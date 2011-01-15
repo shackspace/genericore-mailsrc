@@ -2,9 +2,8 @@
 #
 # usage: tcp-proxy <mailsrc-config>
 #
-# Listen for and send each received mail to a message queue.
-#
-# Each TCP-connection is assumed to send a complete mail.  See tcp-send-mail.
+# Listen for, receive, parse, and forward mail.
+# Each TCP-connection to the proxy is assumed to send a mail and disconnect.
 #
 set -euf
 
