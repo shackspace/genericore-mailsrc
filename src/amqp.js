@@ -1,11 +1,12 @@
 
-var sys = require('sys');
-var log = sys.puts;
-var amqp = require('amqp');
-
 var Client = function (config) {
+  var sys = require('sys');
+  var amqp = require('amqp');
+  var log = function (x) {
+    sys.puts('AMQP client: ' + x);
+  };
   this.connect = function (callback) {
-    log('AMQP connecting...');
+    log('connecting...');
     //var save_publish = publish;
 
     var connection = amqp.createConnection(config.connection);
@@ -21,7 +22,7 @@ var Client = function (config) {
     });
 
     connection.on('ready', function () {
-      log('AMQP: connected');
+      log('connected');
       var exchange = connection.exchange(
         config.queue.name,
         config.exchange.options);
@@ -30,7 +31,7 @@ var Client = function (config) {
           this.publish = function (message) {
             exchange.publish(config.queue.name, message);
           };
-          log('AMQP: ready');
+          log('ready');
           callback();
       });
     });
