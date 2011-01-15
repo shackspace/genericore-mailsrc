@@ -16,9 +16,8 @@ var Client = function (config) {
       //  publish = save_publish;
       //}
       var timeout = config.reconnect_timeout;
-      setTimeout(AMQP_client, timeout);
-      log('AMQP: ' + err);
-      //log('AMQP client: ' + err + '; retrying in ' + timeout + 'ms');
+      setTimeout(function () { this.connect(callback); }, timeout);
+      log('error: ' + err.message + '; retrying in ' + timeout + 'ms');
     });
 
     connection.on('ready', function () {
