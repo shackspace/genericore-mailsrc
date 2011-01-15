@@ -21,11 +21,11 @@ var Client = function (config) {
       connection.on('ready', function () {
         log('connected');
         var exchange = connection.exchange(
-          config.queue.name,
+          config.exchange.name,
           config.exchange.options);
         exchange.on('open', function () {
           that.publish = function (message) {
-            exchange.publish(config.queue.name, message);
+            exchange.publish(config.exchange.name, message);
           };
           log('ready');
           callback();
