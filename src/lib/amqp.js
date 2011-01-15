@@ -5,7 +5,9 @@ var Client = function (config) {
   var log = function (x) {
     sys.puts('AMQP client: ' + x);
   };
+  log("config = " + JSON.stringify(config));
   this.connect = function (callback) {
+    var that = this;
     var reconnect = function () {
       log('connecting...');
       var connection = amqp.createConnection(config.connection);
@@ -22,7 +24,7 @@ var Client = function (config) {
           config.queue.name,
           config.exchange.options);
         exchange.on('open', function () {
-          this.publish = function (message) {
+          that.publish = function (message) {
             exchange.publish(config.queue.name, message);
           };
           log('ready');
