@@ -1,7 +1,5 @@
 
-var config = require('./' + process.argv[2]);
-
-
+var config = require('./config').readFileSync(process.argv[2]);
 var parse = require('./email').parse;
 var amqp = require('./amqp').createClient(config.amqp);
 var fs = require('fs');
