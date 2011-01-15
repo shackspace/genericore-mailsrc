@@ -1,0 +1,17 @@
+#! /bin/sh
+#
+# usage: mailman-archive-replay <mailsrc-config> <mailman-archive>
+#
+# Parse a mailman archive (AKA. gunzip'd "Downloadable version") and send each
+# contained mail to a configured message queue.
+#
+set -euf
+
+dirname="`dirname "$0"`"
+script="$dirname/../src/mailman-archive-replay.js"
+config="$1"
+archive="$2"
+
+. "$dirname/usage.sh"; check_args_or_print_usage_and_die "$@"
+
+exec node "$script" "$config" "$archive"

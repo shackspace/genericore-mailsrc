@@ -1,0 +1,17 @@
+#! /bin/sh
+#
+# usage: tcp-proxy <mailsrc-config>
+#
+# Listen for and send each received mail to a message queue.
+#
+# Each TCP-connection is assumed to send a complete mail.  See tcp-send-mail.
+#
+set -euf
+
+dirname="`dirname "$0"`"
+script="$dirname/../src/main.js"
+config="$1"
+
+. "$dirname/usage.sh"; check_args_or_print_usage_and_die "$@"
+
+exec node "$script" "$config" 
