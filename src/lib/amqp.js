@@ -6,34 +6,32 @@ var Client = function (config) {
     sys.puts('AMQP client: ' + x);
   };
   this.connect = function (callback) {
-    log('connecting...');
-    //var save_publish = publish;
-
-    var connection = amqp.createConnection(config.connection);
-
-    connection.on('error', function (err) {
-      //if (save_publish !== publish) {
-      //  publish = save_publish;
-      //}
-      var timeout = config.reconnect_timeout;
-      setTimeout(function () { this.connect(callback); }, timeout);
-      log('error: ' + err.message + '; retrying in ' + timeout + 'ms');
-    });
-
-    connection.on('ready', function () {
-      log('connected');
-      var exchange = connection.exchange(
-        config.queue.name,
-        config.exchange.options);
-
+    var reconnect = function () {
+      log('connecting...');
+      var connection = amqp.createConnection(config.connection);
+      connection.on('error', function (err) {
+        // TODO only retry on ETIMEDOUT?
+        // TODO do we have to clean up something here?
+        var timeout = config.reconnect_timeout;
+        setTimeout(reconnect, timeout);
+        log('error: ' + err.message + '; retrying in ' + timeout + 'ms');
+      });
+      connection.on('ready', function () {
+        log('connected');
+        var exchange = connection.exchange(
+          config.queue.name,
+          config.exchange.options);
         exchange.on('open', function () {
           this.publish = function (message) {
             exchange.publish(config.queue.name, message);
           };
           log('ready');
           callback();
+        });
       });
-    });
+    };
+    // initialize reconnect-loop
+    reconnect();
   };
 };
 
