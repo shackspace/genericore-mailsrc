@@ -1,8 +1,9 @@
 
 exports.parse = function (s) {
-  var s_hfs_b = s.split("\n\n", 2);
+  var s_hfs_b = s.split("\n\n");
   var s_hfs = s_hfs_b[0];
-  var b = s_hfs_b[1];
+  s_hfs_b.shift();
+  var b = s_hfs_b.join('\n\n');
   var hfs = {};
   s_hfs.replace(/\n\s+/g, ' ').split(/\n/g).forEach(function (hf_s) {
     var hf = hf_s.split(/:\s*/, 2);
