@@ -2,10 +2,10 @@
 //
 //
 
-var config = require('./config').readFileSync(process.argv[2]);
-var parse = require('./email').parse;
-var amqp = require('./amqp').createClient(config.amqp);
-var tcp = require('./tcp').createServer(config.tcp);
+var config = require('./lib/config').readFileSync(process.argv[2]);
+var parse = require('./lib/email').parse;
+var amqp = require('./lib/amqp').createClient(config.amqp);
+var tcp = require('./lib/tcp').createServer(config.tcp);
 
 amqp.connect(function () {
   tcp.serve(function (message) {

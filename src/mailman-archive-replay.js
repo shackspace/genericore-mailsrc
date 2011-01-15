@@ -1,7 +1,7 @@
 
-var config = require('./config').readFileSync(process.argv[2]);
-var parse = require('./email').parse;
-var amqp = require('./amqp').createClient(config.amqp);
+var config = require('./lib/config').readFileSync(process.argv[2]);
+var parse = require('./lib/email').parse;
+var amqp = require('./lib/amqp').createClient(config.amqp);
 var fs = require('fs');
 
 var read_mailman_archive = function (filename, callback) {
