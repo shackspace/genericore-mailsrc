@@ -1,4 +1,4 @@
-# Genericore mailsrc
+# genericore-mailsrc
 
 This package contains a Genericore source module to parse and forward email.
 
