@@ -9,7 +9,7 @@ set -euf
 
 readlink="`readlink -f "$0"`"
 dirname="`dirname "$readlink"`"
-script="`readlink -f "$dirname/../src/main.js"`"
+script="`readlink -f "$dirname/../src/tcp-proxy.js"`"
 config="$1"
 
 . "$dirname/usage.sh"; check_args_or_print_usage_and_die "$@"
