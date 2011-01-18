@@ -1,9 +1,12 @@
 {
-  "listen": {
-    "port": 3232,
-    "host": "localhost"
+  "tcp": {
+    "listen": {
+      "port": 3232,
+      "host": "localhost"
+    }
   },
   "amqp": {
+    "output": "mailsrc",
     "reconnect_timeout": 10000,
     "connection": {
       "host": "10.42.1.73",
@@ -11,13 +14,6 @@
       "login": "guest",
       "password": "guest",
       "vhost": "/"
-    },
-    "exchange": {
-      "type": "fanout"
-    },
-    "queue": {
-      "name": "mailsrc",
-      "options": { "autoDelete": false }
     }
   }
 }

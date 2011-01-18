@@ -7,6 +7,8 @@ var fs = require('fs');
 
 exports.readFileSync = function (filename) {
   log(filename);
-  return JSON.parse(fs.readFileSync(filename));
+  var config = JSON.parse(fs.readFileSync(filename));
+  log(sys.inspect(config));
+  return config;
 };
 

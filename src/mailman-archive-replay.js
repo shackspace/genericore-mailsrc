@@ -1,7 +1,6 @@
-
 var config = require('./lib/config').readFileSync(process.argv[2]);
+var connect = require('genericore').connect;
 var parse = require('./lib/email').parse;
-var amqp = require('./lib/amqp').createClient(config.amqp);
 var fs = require('fs');
 
 var read_mailman_archive = function (filename, callback) {
@@ -29,11 +28,17 @@ var read_mailman_archive = function (filename, callback) {
   });
 };
 
-amqp.connect(function () {
-  read_mailman_archive(process.argv[3], function (archive) {
-    archive.map(parse).forEach(function (message) {
-      console.log('publishing: ' + message['Header-Fields'].From);
-      amqp.publish({ type: 'mail', subtype: 0, data: message });
+connect(config.amqp, {
+  debug: function (message) {
+    console.log('AMQP: ' + message);
+  },
+  ready: function (client) {
+    var publish = client.publish;
+    read_mailman_archive(process.argv[3], function (archive) {
+      archive.map(parse).forEach(function (message) {
+        console.log('publishing: ' + message['Header-Fields'].From);
+        publish(JSON.stringify({ type: 'mail', subtype: 0, data: message }));
+      });
     });
-  });
+  }
 });

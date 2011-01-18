@@ -8,7 +8,8 @@ This package contains a Genericore source module to parse and forward email.
 ## System requirements
 
 - [node](http://nodejs.org/) v0.2.5 or compatible
-- [node-amqp](https://github.com/ry/node-amqp) v0.0.2 or compatible
+- [node-genericore](https://github.com/shackspace/node-genericore) v0.0.1
+  or compatible
 
 ## Quickstart guide
 
