@@ -7,8 +7,9 @@
 #
 set -euf
 
-dirname="`dirname "$0"`"
-script="$dirname/../src/mailman-archive-replay.js"
+readlink="`readlink -f "$0"`"
+dirname="`dirname "$readlink"`"
+script="`readlink -f "$dirname/../src/mailman-archive-replay.js"`"
 config="$1"
 archive="$2"
 

@@ -7,8 +7,9 @@
 #
 set -euf
 
-dirname="`dirname "$0"`"
-script="$dirname/../src/main.js"
+readlink="`readlink -f "$0"`"
+dirname="`dirname "$readlink"`"
+script="`readlink -f "$dirname/../src/main.js"`"
 config="$1"
 
 . "$dirname/usage.sh"; check_args_or_print_usage_and_die "$@"
