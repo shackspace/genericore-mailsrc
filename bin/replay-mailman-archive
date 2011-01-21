@@ -1,0 +1,43 @@
+#! /bin/bash
+#
+# usage: replay-mailman-archive <mailman-archive-uri> <port> [<host>]
+#
+set -euf
+
+uri="$1"
+port="$2"
+host="${3-localhost}"
+
+main() {
+  input "$uri" | output "$port" "$host"
+}
+
+input() {
+  for txtgz in `GET_txtgzs "$1/"`; do
+    GET "$uri/$txtgz" | zcat | mailman2mailsrc
+  done
+}
+
+output() {
+  while ! cat >"/dev/tcp/$2/$1"; do
+    echo "retrying..." >&2
+    sleep 1
+  done
+}
+
+GET() {
+  curl -ksS "$1"
+}
+
+GET_txtgzs() {
+  GET "$1" | sed -rn 's/.*href="([^"]+txt.gz)".*/\1/p'
+}
+
+mailman2mailsrc() {
+  sed -r '
+    s/^\+/&/
+    s/^From .+ at [^[:space:]]+  [A-Z][a-z]+ [A-Z][a-z]+ [ 1-3][0-9] [0-9]+:[0-9]+:[0-9]+ [0-9]+//
+'
+}
+
+main
