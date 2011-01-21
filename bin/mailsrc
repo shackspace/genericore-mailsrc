@@ -1,0 +1,14 @@
+#! /bin/sh
+#
+# usage: mailsrc <mailsrc-config>
+#
+set -euf
+
+readlink="`readlink -f "$0"`"
+dirname="`dirname "$readlink"`"
+script="`readlink -f "$dirname/../src/main.js"`"
+config="$1"
+
+. "$dirname/usage.sh"; check_args_or_print_usage_and_die "$@"
+
+exec node "$script" "$config" 
