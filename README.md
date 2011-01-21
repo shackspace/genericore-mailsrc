@@ -17,5 +17,13 @@ This package contains a Genericore source module to parse and forward email.
 2. ``$EDITOR YOURCONFIG``
 3. ``bin/mailsrc YOURCONFIG``
 
+### Send a single mail
+``cat >"/dev/tcp/localhost/YOURCONFIG_listen_port # or similar``
+
 ### Send a mailman archive
 ``bin/replay-mailman-archive MAILMAN_ARCHIVE_URI YOURCONFIG_listen_port``
+
+### Input format
+
+The TCP server assumes EOT-delimited raw email.
+
