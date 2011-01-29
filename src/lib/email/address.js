@@ -55,7 +55,7 @@ var parse_address = function (input) {
 var parse_address_list = function (string) {
   return string.split(';').map(function (email) {
     return parse_address(email);
-  });
+  }).filter(function (x) { return x; });
 };
 
 var normalize_space = function (string) {
