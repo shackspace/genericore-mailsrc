@@ -1,4 +1,8 @@
 
+var address = require('./email/address'),
+    parse_address = address.parse_address,
+    parse_address_list = address.parse_address_list;
+
 var parsers = {
   Date: function (string) {
     var date = new Date(string);
@@ -10,7 +14,9 @@ var parsers = {
       minute:       date.getUTCMinutes(),
       second:       date.getUTCSeconds()
     };
-  }
+  },
+  To: parse_address_list,
+  From: parse_address
 };
 
 exports.parse = function (s) {
@@ -26,8 +32,10 @@ exports.parse = function (s) {
     hfs[name] = value;
   });
   for (key in parsers) {
-    var parser = parsers[key];
-    hfs[key] = parser(hfs[key]);
+    if (hfs.hasOwnProperty(key)) {
+      var parser = parsers[key];
+      hfs[key] = parser(hfs[key]);
+    };
   };
   return { "Header-Fields": hfs, "Body": b };
 };
