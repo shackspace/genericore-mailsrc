@@ -1,3 +1,5 @@
+migrated to new location: https://codeberg.org/shackspace/genericore-mailsrc
+
 # genericore-mailsrc
 
 This package contains a Genericore source module to parse and forward email.
